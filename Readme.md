@@ -25,7 +25,7 @@ This series is hands-on and project-based, walking you through:
 
 
 
-> 📌 Basically i am creating a full working video creating,uploading... etc like youtube app using full basic to advanced code.
+> 📌 Basically, I am creating a fully functional video application, similar to YouTube, which includes features like video creation, uploading, and more, using code that covers everything from basic to advanced.
 
 ---
 
