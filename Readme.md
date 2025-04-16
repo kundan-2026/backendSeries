@@ -25,7 +25,7 @@ This series is hands-on and project-based, walking you through:
 
 
 
-> 📌 Each folder contains a **mini project** or **feature demo**. Dive in and learn by building!
+> 📌 Basically i am creating a full working video creating,uploading... etc like youtube app using full basic to advanced code.
 
 ---
 
