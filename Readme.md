@@ -57,6 +57,7 @@ npm install
 MONGO_URI=your_mongodb_connection_string
 
 # Run in the terminal/vscode
+git init
 git add .
 git commit -m "Information what you want to commit"
 git push
