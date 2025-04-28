@@ -12,3 +12,5 @@ const storage = multer.diskStorage({
 export const upload = multer({
   storage: storage,
 });
+
+// https://www.npmjs.com/package/multer => source link
