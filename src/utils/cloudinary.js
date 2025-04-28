@@ -26,3 +26,5 @@ const uploadOnCloudinary = async (localFilePath) =>{
 }
 
 export {uploadOnCloudinary}
+
+// https://console.cloudinary.com/app/product-explorer => source link
