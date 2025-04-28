@@ -60,7 +60,7 @@ MONGO_URI=your_mongodb_connection_string
 git init
 git add .
 git commit -m "Information what you want to commit"
-git push
+git push / git push origin main
 
 # Run the server
 npm run dev
