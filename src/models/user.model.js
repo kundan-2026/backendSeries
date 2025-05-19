@@ -6,7 +6,7 @@ const userSchema = new Schema(
   {
     userName: {
       type: String,
-      type: true,
+      required: true,
       unique: true,
       lowercase: true,
       trim: true,
@@ -15,20 +15,20 @@ const userSchema = new Schema(
 
     email: {
       type: String,
-      type: true,
+      required: true,
       unique: true,
       lowercase: true,
       trim: true,
     },
     fullName: {
       type: String,
-      type: true,
+      required: true,
       trim: true,
       index: true,
     },
     avtar: {
       type: String, // cloudinary url use kar raha hai
-      type: true,
+      required: true,
     },
 
     coverImage: {
@@ -37,13 +37,13 @@ const userSchema = new Schema(
 
     watchHostory: [
       {
-        type: Schema.TypeObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Video",
       },
     ],
     password: {
       type: String,
-      reqired: [true, "Password is required"],
+      required: [true, "Password is required"],
     },
     refreshToken: {
       type: String,
@@ -57,7 +57,7 @@ const userSchema = new Schema(
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
-  this.password = bcrypt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
