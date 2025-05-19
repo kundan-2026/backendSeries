@@ -1,7 +1,6 @@
-import express, { urlencoded } from "express";
-
+import express from "express";
 import cors from "cors";
-import cookiesParser from "cookies-parser";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -12,9 +11,15 @@ app.use(
   })
 );
 
-app.use(express.json({ limit: "16kb" })); // this line basically work ki wo json file ki kitni stoage wala accept kar sakta hai
-app.use(express(urlencoded({ extended: true, limit: "16kb" }))); // it help to encoded the link like when we search in anything in google we saw they give me in + formate like that
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
-app.use(cookiesParser());
+app.use(cookieParser());
 
-export { app };
+// routes import
+import userRoutes from "./routes/user.routes.js";
+
+// routes declaration
+app.use("/api/v1/users", userRoutes);
+
+export default app;
