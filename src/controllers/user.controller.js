@@ -5,6 +5,8 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/apiResopnes.js";
 
 const registerUser = asyncHandler(async (req, res) => {
+  console.log("FILES RECEIVED:", req.files);
+  console.log("BODY RECEIVED:", req.body);
   // get user details from frontend
   // validation for not empty
   // check if user already exist : by email or username
@@ -21,10 +23,6 @@ const registerUser = asyncHandler(async (req, res) => {
   console.log("userName: ", username);
   console.log("password: ", password);
 
-  // if (fullName === "") {
-  //   throw new APIError(400, "fullName is required");
-  // }
-
   if (
     [fullName, email, username, password].some((field) => field?.trim() === "")
   ) {
@@ -39,18 +37,43 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new APIError(409, "Username or Email already exist");
   }
 
-  const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
-
-  if (!avatarLocalPath) {
+  // Corrected file existence checks
+  if (!req.files?.avatar || req.files.avatar.length === 0) {
     return res.status(400).json(new APIError(400, "Avatar file is required"));
   }
 
-  const avatar = await uploadOnCloudinary(avatarLocalPath);
-  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+  const avatarLocalPath = req.files.avatar[0].path;
 
-  if (!avatar) {
-    throw new APIError(400, "Avatar files is required");
+  let coverImageLocalPath = null;
+  if (req.files?.coverImage && req.files.coverImage.length > 0) {
+    coverImageLocalPath = req.files.coverImage[0].path;
+  }
+
+  // Upload avatar with error handling
+  let avatar;
+  try {
+    avatar = await uploadOnCloudinary(avatarLocalPath);
+    console.log("Uploaded avatar:", avatar);
+  } catch (error) {
+    console.error("Cloudinary avatar upload error:", error);
+    throw new APIError(500, "Failed to upload avatar image");
+  }
+
+  // Upload cover image if present
+  let coverImage = null;
+  if (coverImageLocalPath) {
+    try {
+      coverImage = await uploadOnCloudinary(coverImageLocalPath);
+      console.log("Uploaded cover image:", coverImage);
+    } catch (error) {
+      console.error("Cloudinary cover image upload error:", error);
+      // You can decide whether to throw or just continue without coverImage
+      // throw new APIError(500, "Failed to upload cover image");
+    }
+  }
+
+  if (!avatar || !avatar.url) {
+    throw new APIError(400, "Avatar upload failed or file is required");
   }
 
   const user = await User.create({
