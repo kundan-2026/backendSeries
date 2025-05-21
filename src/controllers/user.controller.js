@@ -18,10 +18,10 @@ const registerUser = asyncHandler(async (req, res) => {
   // return res
 
   const { fullName, email, username, password } = req.body;
-  console.log("fullName: ", fullName);
-  console.log("email: ", email);
-  console.log("userName: ", username);
-  console.log("password: ", password);
+  // console.log("fullName: ", fullName);
+  // console.log("email: ", email);
+  // console.log("userName: ", username);
+  // console.log("password: ", password);
 
   if (
     [fullName, email, username, password].some((field) => field?.trim() === "")
@@ -36,6 +36,8 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existedUser) {
     throw new APIError(409, "Username or Email already exist");
   }
+
+  // console.log(req.files);
 
   // Corrected file existence checks
   if (!req.files?.avatar || req.files.avatar.length === 0) {
