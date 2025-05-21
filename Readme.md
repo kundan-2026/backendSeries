@@ -1,4 +1,4 @@
-# 🎥 Video Hosting Backend (VideoHub Clone)
+# 🎥 Video Hosting Backend (VideoHub)
 
 This is a **complete backend project** for a video hosting platform, similar to YouTube, built with modern and scalable technologies such as **Node.js**, **Express.js**, **MongoDB**, **Mongoose**, **JWT**, **bcrypt**, and more.
 
