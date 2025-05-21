@@ -14,7 +14,6 @@ const storage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
-    // Generate a unique filename: timestamp-originalname
     const uniqueName = `${Date.now()}-${file.originalname}`;
     cb(null, uniqueName);
   },
@@ -24,10 +23,9 @@ const storage = multer.diskStorage({
 export const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // Optional: limit file size to 5MB
+    fileSize: 5 * 1024 * 1024, // 5MB limit
   },
   fileFilter: function (req, file, cb) {
-    // Optional: accept only images
     const allowedTypes = /jpeg|jpg|png|webp/;
     const isValid = allowedTypes.test(file.mimetype);
     if (isValid) {
