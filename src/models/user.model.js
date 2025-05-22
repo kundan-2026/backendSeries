@@ -65,6 +65,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
+// generateAccessTocken is basicaaly used for the short time/leave
 userSchema.methods.generateAccessTocken = function () {
   return jwt.sign(
     {
@@ -80,6 +81,7 @@ userSchema.methods.generateAccessTocken = function () {
   );
 };
 
+// generateRefreshTocken is basicaaly used for the long time/leave
 userSchema.methods.generateRefreshTocken = function () {
   return jwt.sign(
     {
