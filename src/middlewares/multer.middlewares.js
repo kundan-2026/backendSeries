@@ -1,37 +1,30 @@
 import multer from "multer";
-import fs from "fs";
 import path from "path";
+import fs from "fs";
 
-// Ensure the upload directory exists
-const uploadDir = path.resolve("public/temp");
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// Set up multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadDir);
+    const uploadPath = "uploads/";
+    fs.mkdirSync(uploadPath, { recursive: true });
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName);
+    const ext = path.extname(file.originalname);
+    cb(null, `${file.fieldname}-${Date.now()}${ext}`);
   },
 });
 
-// Export the configured multer middleware
 export const upload = multer({
-  storage: storage,
+  storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
+    fileSize: 1024 * 1024 * 2, // 2MB
   },
-  fileFilter: function (req, file, cb) {
-    const allowedTypes = /jpeg|jpg|png|webp/;
-    const isValid = allowedTypes.test(file.mimetype);
-    if (isValid) {
-      cb(null, true);
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!allowedTypes.includes(file.mimetype)) {
+      cb(new Error("Only JPEG, PNG, and JPG formats are allowed"));
     } else {
-      cb(new Error("Only image files (jpeg, jpg, png, webp) are allowed."));
+      cb(null, true);
     }
   },
 });

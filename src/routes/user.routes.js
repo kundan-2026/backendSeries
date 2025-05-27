@@ -9,6 +9,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
+// Route to register user with avatar and coverImage upload
 router.route("/register").post(
   upload.fields([
     { name: "avatar", maxCount: 1 },
@@ -17,9 +18,10 @@ router.route("/register").post(
   registerUser
 );
 
+// Route to login user
 router.route("/login").post(loginUser);
 
-// secured routes
+// Secured route to logout user
 router.route("/logout").post(verifyJWT, logoutUser);
 
 export default router;
